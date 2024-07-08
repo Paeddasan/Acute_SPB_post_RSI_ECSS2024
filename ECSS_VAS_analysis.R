@@ -23,7 +23,7 @@ VAS<- readxl::read_excel("Subjective_at_ECSS2024.xlsx") %>%
   janitor::clean_names()
 
 # Load
-all_ids <- readxl::read_excel("Subjects_at_ECSS2024.xlsx") %>%
+all_ids <- readxl::read_excel("IDs_at_ECSS2024.xlsx") %>%
   janitor::clean_names() %>%
   filter(id != 6 &
            id != 8 &
@@ -72,7 +72,7 @@ longVAS%>%
                               "+4min \n active \n recovery",
                               "+10min \n passive \n recovery"))
 
-ggsave("HR_Plots/VASrecovery_points.png", plot = last_plot(),
+ggsave("../HR_Plots/VASrecovery_points.png", plot = last_plot(),
        units = "cm",
        dpi = 600,
        width = 18,
@@ -99,7 +99,7 @@ longVAS%>%
                               "+4min \n active \n recovery",
                               "+10min \n passive \n recovery"))
 
-ggsave("HR_Plots/VASrecovery_box.png", plot = last_plot(),
+ggsave("../HR_Plots/VASrecovery_box.png", plot = last_plot(),
        units = "cm",
        dpi = 600,
        width = 18,
@@ -107,27 +107,57 @@ ggsave("HR_Plots/VASrecovery_box.png", plot = last_plot(),
 
 
 
+
+
 # Continuous Ordinal Regression ---------------------------------------------
 #(Manuguerra et al., 2020, doi: 10.18637/jss.v096.i08)
+
+# baseline model
 vas.mdl.bl <- ocm(vas ~ group,
-                  data = longVAS) 
+                  data = longVAS, scale = c(0, 100))
+# time as predictor
 vas.mdl.time <- ocm(vas ~ timepoint,
-                  data = longVAS)
-vas.mdl.timegr <- ocm(vas ~ timepoint + group,
-                    data = longVAS)
-vas.mdl.interact <- ocm(vas ~ group * timepoint,
-                        data = longVAS)
+                  data = longVAS, scale = c(0, 100))
 
+#random intercept
+vas.mdl.time.id <- ocm(vas ~ timepoint + (1|id), data = longVAS, scale = c(0,100) )
 
-summary(vas.mdl.time)
+# group and time as predictor
+vas.mdl.timegr <- ocm(vas ~ timepoint + group + (1| id),
+                    data = longVAS, scale = c(0, 100))
 
+# interaction effect
+vas.mdl.interact <- ocm(vas ~ group * timepoint + (1|id),
+                        data = longVAS, scale = c(0, 100))
+
+# model comparison based on AIC and X²
 compare_models <- anova(vas.mdl.bl, vas.mdl.time, vas.mdl.timegr, vas.mdl.interact)
+compare_models
+
+coef(summary(vas.mdl.interact)) # coefficients beta and random effect
+#vas.mdl.interact$vcov # variance covariance matrix
+
+#plotting the g function histogram and QQ-plot for modelfit
+plot(vas.mdl.bl)
+plot(vas.mdl.interact)
+
+#95% CI for all model parameters
+confint(vas.mdl.interact)
+
+
+longVAS <- longVAS %>%
+  mutate("pred_vas" = predict(vas.mdl.interact, type = "density"))
 
 longVAS %>%
-  group_by(timepoint) %>%
-  summarise(mean_vas = mean(vas),
-            sd_vas = sd(vas))
+  ggplot(aes(x = vas, y = (pred_vas), color = group)) +
+  geom_point() +
+  xlim(0, 100)
 
-#plotting the g function histo and q-plot for modelfit
-plot(vas.mdl.bl)
-plot(vas.mdl.time)
+
+# summary of sample parameters
+longVAS %>%
+  group_by(group, timepoint) %>%
+  summarise("mean" = mean(vas),
+            "sd" = sd(vas),
+            "n" = n())
+

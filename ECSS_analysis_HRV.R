@@ -78,7 +78,7 @@ df_hr_long %>%
 
 #save plot
 # plotsize is optimized for poster
-ggsave("HR_Plots/heart_rate_recovery.png", plot = last_plot(),
+ggsave("../HR_Plots/heart_rate_recovery.png", plot = last_plot(),
        units = "cm",
        dpi = 600,
        width = 18,
@@ -129,7 +129,7 @@ df_hr_long %>%
         axis.text.y = element_text(size = 20),
         title = element_text(size = 22))
 
-ggsave("HR_Plots/lf_power.png", plot = last_plot(),
+ggsave("../HR_Plots/lf_power.png", plot = last_plot(),
        units = "cm",
        dpi = 600,
        width = 18,
@@ -209,7 +209,7 @@ df_hr_long %>%
         axis.title.x = element_blank(),
         axis.text.y = element_text(size = 20),
         title = element_text(size = 22))
-ggsave("HR_Plots/rmssd.png", plot = last_plot(),
+ggsave("../HR_Plots/rmssd.png", plot = last_plot(),
        units = "cm",
        dpi = 600,
        width = 18,
@@ -289,7 +289,7 @@ predict_hr %>%
         axis.text.y = element_text(size = 20),
         title = element_text(size = 22))
 
-ggsave("HR_Plots/heart_rate_model.png", plot = last_plot(),
+ggsave("../HR_Plots/heart_rate_model.png", plot = last_plot(),
        units = "cm",
        dpi = 600,
        width = 18,

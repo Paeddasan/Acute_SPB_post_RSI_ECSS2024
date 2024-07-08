@@ -8,16 +8,14 @@ packages <- c("tidyverse",
 lapply(packages, FUN = library, require, character.only = T)
 
 # here are the raw RR-intervals and Markers
-file_dir <- ("../../Data/RSI_HR_raw/")
+# Raw files not included in the Github repo.
+# These will be available after publication of main Study -
+#See https://doi.org/10.17605/OSF.IO/XNP73 for more information
+file_dir <- ("../../../Data/RSI_HR_raw/")
 
-
-# load the training plan over weeks and the times for the sets
-tplan <- readxl::read_excel("../../Data/TPlan.xlsx", sheet = 1)
-set_times <- readxl::read_excel("../../Data/TPlan.xlsx", sheet = 2)
 
 # The Subject allocation at the timepoint of the analysis
-# 
-all_ids <- readxl::read_excel("Subjects_at_ECSS2024.xlsx") %>%
+all_ids <- readxl::read_excel("IDs_at_ECSS2024.xlsx") %>%
   filter(id != 6 &
            id != 8 &
            id != 10 &
@@ -47,7 +45,7 @@ week = 3
 day = 1
 
 #number of sets in this session are 4
-sets <- tplan$set[week == tplan$week & day == tplan$training]
+sets <- 4
 
 
 # extracted data.frame for the raw recovery phase of all participants in one data.frame
