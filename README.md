@@ -1,5 +1,5 @@
-# Acute Effects of Slow-Paced Breathing on Cardiac Autonomic Control following Sprint Interval Training - A Randomized Controlled Trial
-Poster presentation at the ECSS 2024
+# Acute Effects of Slow-Paced Breathing on Cardiac Autonomic Control Following Sprint Interval Training - A Randomized Controlled Trial
+**Poster presentation at the ECSS 2024**
 Abstract-ID: 1861
 
 **Authors**
