@@ -3,6 +3,7 @@
 Abstract-ID: 1861
 
 Find the poster on [ResearchGate](https://www.researchgate.net/publication/382085381_Methods_Acute_Effects_of_Slow-Paced_Breathing_on_Cardiac_Autonomic_Control_following_Sprint_Interval_Training_a_Randomized_Controlled_Trial/citations)
+
 DOI: 10.13140/RG.2.2.31262.75848
 
 
