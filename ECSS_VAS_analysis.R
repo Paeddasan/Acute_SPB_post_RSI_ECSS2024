@@ -33,7 +33,6 @@ all_ids <- readxl::read_excel("IDs_at_ECSS2024.xlsx") %>%
 
 # Filter for the specific day
 VAS <- VAS %>%
-  filter(woche == 3 & tag == 1) %>%
   filter(id %in% unique(all_ids$id)) 
 
 
@@ -45,7 +44,6 @@ longVAS <- pivot_longer(VAS,
                         names_to = "timepoint",
                         values_to = "vas") %>%
   mutate(id = as.factor(id),
-         woche = as.factor(woche),
          group = as.factor(group),
          timepoint = as.factor(timepoint))
 
